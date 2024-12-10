@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione delle prenotazioni per un Evento</title>
+    <style>
+        table,tr,th,td{
+            border: 1px,solid black
+        }
+    </style>
+</head>
+<body>
+    <form id="myForm">
+        
+        
+        <button type="button" ogniclick="aggiungiPrenotazione()" id="aggiungi">Aggiungi prenotazione</button>
+        <button type="button" ogniclick="tabella()" id="mostra">Mostra prenotazione</button>
+        <table id="tabella">
+            <tr>
+                <th>Codice prenotazione</th>
+                <td><input type="number" id="codice" name="codice" required></td>
+            </tr>
+            <tr>
+                <th>Numero di biglietti</th>
+                <td><input type="number" id="numeroBiglietti" name="numeroBiglietti" required></td>
+            </tr>
+        </table>
+    </form>
+    <script>
+       
+        let tabella= "<table><tr><th> Codice prenotazione </th></tr> <tr><th> Numero di Biglietti </th></tr>"
+        let clienti=[]   
+      
+            function aggiungiPrenotazione(){  
+                let codice=document.getElementById("codice").value
+                let numeroBiglietti=document.getElementById("numeroBiglietti").value
+               
+           
+                function calcolaImporto(){
+                    var  costoBiglietto=20
+                    let costo
+                    if((numeroBiglietti>=1)&&(numeroBiglietti<=4)){
+                        costo= Number(numeroBiglietti*costoBiglietto)
+                    }
+                    else if((numeroBiglietti>=5)&&(numeroBiglietti<=9)){
+                        costo= Number((numeroBiglietti*costoBiglietto)*0.10)
+                    }
+                    else if(numeroBiglietti>10){
+                        costo=Number((numeroBiglietti*costoBiglietto)*0.20)
+                    }
+                    return costo
+                }
+                cliente.push({codice: codice, numeroBiglietti: numeroBiglietti})
+                document.getElementById("myForm").reset()
+            } 
+            
+        
+        function tabella(){
+                for (let cliente of clienti){
+                    tabella+=`<tr><td>${cliente.codice}</td></tr><tr><td>${numeroBiglietti}</td></tr>`
+                }
+                tabella="</table>"
+            }
+
+    </script>
+</body>
+</html>
