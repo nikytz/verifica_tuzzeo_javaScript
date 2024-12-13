@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione delle prenotazioni per un Evento</title>
+    <style>
+        table, tr, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="myForm">
+        <button type="button" onclick="aggiungiPrenotazione()" id="aggiungi">Aggiungi prenotazione</button>
+        <button type="button" onclick="mostratabella()" id="mostra">Mostra prenotazioni</button>
+        <table id="tabella">
+            <tr>
+                <th>Codice prenotazione</th>
+                <td><input type="number" id="codice" name="codice" required></td>
+            </tr>
+            <tr>
+                <th>Numero di biglietti</th>
+                <td><input type="number" id="numeroBiglietti" name="numeroBiglietti" required></td>
+            </tr>
+        </table>
+    </form>
+    
+    <div id="tabellaRisultati"></div>
+
+    <script>
+        let tabella = "<table><tr><th> Codice prenotazione </th><th> Numero di Biglietti </th><th> Importo </th></tr>";
+        let clienti = [];
+
+        function aggiungiPrenotazione() {
+            // Recupera i valori inseriti nei campi
+            let codice = document.getElementById("codice").value;
+            let numeroBiglietti = document.getElementById("numeroBiglietti").value;
+
+            // Controllo se i campi sono validi
+            if (!codice || !numeroBiglietti) {
+                alert("Tutti i campi devono essere compilati!");
+                return;
+            }
+
+            if (numeroBiglietti <= 0) {
+                alert("Il numero di biglietti deve essere maggiore di zero!");
+                return;
+            }
+
+            // Calcola l'importo
+            function calcolaImporto() {
+                var costoBiglietto = 20;
+                let costo;
+                if (numeroBiglietti >= 1 && numeroBiglietti <= 4) {
+                    costo = Number(numeroBiglietti * costoBiglietto);
+                } else if (numeroBiglietti >= 5 && numeroBiglietti <= 9) {
+                    costo = Number((numeroBiglietti * costoBiglietto) * 0.90); // Sconto 10%
+                } else if (numeroBiglietti >= 10) {
+                    costo = Number((numeroBiglietti * costoBiglietto) * 0.80); // Sconto 20%
+                }
+                return costo;
+            }
+
+            let importo = calcolaImporto();
+
+            // Aggiungi la prenotazione all'array clienti
+            clienti.push({ codice: codice, numeroBiglietti: numeroBiglietti, importo: importo });
+
+            // Pulisce i campi del modulo
+            document.getElementById("myForm").reset();
+        }
+
+        function mostratabella() {
+            // Costruisce la tabella dinamicamente con i dati dei clienti
+            tabella = "<table><tr><th> Codice prenotazione </th><th> Numero di Biglietti </th><th> Importo </th></tr>"; // Reset della tabella
+            for (let cliente of clienti) {
+                tabella += `<tr><td>${cliente.codice}</td><td>${cliente.numeroBiglietti}</td><td>${cliente.importo.toFixed(2)} €</td></tr>`;
+            }
+            tabella += "</table>";
+            document.getElementById("tabellaRisultati").innerHTML = tabella;
+        }
+    </script>
+
+</body>
+</html>
